@@ -18,7 +18,7 @@ from collections import defaultdict
 # CONFIGURATION
 # =====================
 
-TEST_API_KEY = "TEST_API_KEY"
+TEST_API_KEY = "hpy_prod_5f8e3a1b9c7d4e2f6a8c3b1e5d7f9a2c8e3f1b5d7e9a2c4f6b8d1f3e5a7c"
 LOG_FILE = "honeypot_logs.json"
 
 # Scam detection patterns

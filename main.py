@@ -5,7 +5,7 @@ Author: Cybersecurity Team
 """
 
 from flask import Flask, request, jsonify
-from datetime import datetime
+from datetime import datetime, timezone
 from functools import wraps
 from typing import Dict, Tuple, List
 import re
@@ -244,7 +244,7 @@ def require_auth(f):
             return jsonify({
                 "status": "error",
                 "message": "Missing Authorization header",
-                "timestamp": datetime.utcnow().isoformat() + "Z"
+                "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
             }), 401
         
         # Validate Bearer token format
@@ -256,7 +256,7 @@ def require_auth(f):
             return jsonify({
                 "status": "error",
                 "message": "Invalid Authorization header format",
-                "timestamp": datetime.utcnow().isoformat() + "Z"
+                    "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
             }), 401
         
         # Check if key is valid
@@ -264,7 +264,7 @@ def require_auth(f):
             return jsonify({
                 "status": "error",
                 "message": "Invalid API key",
-                "timestamp": datetime.utcnow().isoformat() + "Z"
+                    "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
             }), 403
         
         return f(*args, **kwargs)
@@ -282,7 +282,7 @@ def health_check():
     return jsonify({
         "status": "success",
         "message": "Honeypot service is operational",
-        "timestamp": datetime.utcnow().isoformat() + "Z"
+        "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     }), 200
 
 
@@ -299,7 +299,7 @@ def honeypot_message():
             return jsonify({
                 "status": "error",
                 "message": "Content-Type must be application/json",
-                "timestamp": datetime.utcnow().isoformat() + "Z"
+                    "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
             }), 400
         
         # Parse JSON
@@ -311,7 +311,7 @@ def honeypot_message():
             return jsonify({
                 "status": "error",
                 "message": "Invalid JSON format",
-                "timestamp": datetime.utcnow().isoformat() + "Z"
+                    "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
             }), 400
         
         # Validate required fields
@@ -319,7 +319,7 @@ def honeypot_message():
             return jsonify({
                 "status": "error",
                 "message": "Missing 'payload' field",
-                "timestamp": datetime.utcnow().isoformat() + "Z"
+                "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
             }), 400
         
         message = data.get('payload', '')
@@ -335,11 +335,11 @@ def honeypot_message():
         # Extract client info
         client_ip = request.remote_addr or "unknown"
         user_agent = request.headers.get('User-Agent', 'unknown')
-        timestamp = datetime.utcnow().isoformat() + "Z"
+        timestamp = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
         
         # Generate unique log ID
         request_counter[client_ip] += 1
-        log_id = f"{client_ip}_{request_counter[client_ip]}_{int(datetime.utcnow().timestamp() * 1000)}"
+        log_id = f"{client_ip}_{request_counter[client_ip]}_{int(datetime.now(timezone.utc).timestamp() * 1000)}"
         
         # Create and store log
         log_entry = ScamLog(
@@ -369,7 +369,7 @@ def honeypot_message():
         return jsonify({
             "status": "error",
             "message": str(e),
-            "timestamp": datetime.utcnow().isoformat() + "Z"
+            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
         }), 500
 
 
@@ -393,14 +393,14 @@ def get_logs():
             "status": "success",
             "count": len(logs),
             "logs": logs,
-            "timestamp": datetime.utcnow().isoformat() + "Z"
+            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
         }), 200
     
     except Exception as e:
         return jsonify({
             "status": "error",
             "message": str(e),
-            "timestamp": datetime.utcnow().isoformat() + "Z"
+            "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
         }), 500
 
 
@@ -414,7 +414,7 @@ def not_found(error):
     return jsonify({
         "status": "error",
         "message": "Endpoint not found",
-        "timestamp": datetime.utcnow().isoformat() + "Z"
+        "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     }), 404
 
 
@@ -424,7 +424,7 @@ def method_not_allowed(error):
     return jsonify({
         "status": "error",
         "message": "Method not allowed",
-        "timestamp": datetime.utcnow().isoformat() + "Z"
+        "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     }), 405
 
 
@@ -434,7 +434,7 @@ def internal_error(error):
     return jsonify({
         "status": "error",
         "message": "Internal server error",
-        "timestamp": datetime.utcnow().isoformat() + "Z"
+        "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     }), 500
 
 

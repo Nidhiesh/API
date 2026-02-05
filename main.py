@@ -234,16 +234,29 @@ request_counter = defaultdict(int)
 # =====================
 
 def require_auth(f):
-    """Decorator for API key authentication"""
+    """Decorator for API key authentication - supports both Bearer token and x-opi-key header"""
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        # Try x-opi-key header first (for hackathon/external tools)
+        api_key = request.headers.get('x-opi-key')
+        
+        if api_key:
+            # Validate x-opi-key
+            if api_key != TEST_API_KEY:
+                return jsonify({
+                    "status": "error",
+                    "message": "Invalid API key",
+                    "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+                }), 403
+            return f(*args, **kwargs)
+        
+        # Fallback to Authorization Bearer token
         auth_header = request.headers.get('Authorization')
         
-        # Check if header exists
         if not auth_header:
             return jsonify({
                 "status": "error",
-                "message": "Missing Authorization header",
+                "message": "Missing Authorization header or x-opi-key",
                 "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
             }), 401
         
@@ -256,7 +269,7 @@ def require_auth(f):
             return jsonify({
                 "status": "error",
                 "message": "Invalid Authorization header format",
-                    "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+                "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
             }), 401
         
         # Check if key is valid
@@ -264,7 +277,7 @@ def require_auth(f):
             return jsonify({
                 "status": "error",
                 "message": "Invalid API key",
-                    "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+                "timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
             }), 403
         
         return f(*args, **kwargs)

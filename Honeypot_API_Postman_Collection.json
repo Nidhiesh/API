@@ -1,0 +1,312 @@
+{
+  "info": {
+    "_postman_id": "honeypot-api-collection",
+    "name": "Scam Message Honeypot API",
+    "description": "Complete test collection for Honeypot API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000",
+      "type": "default"
+    },
+    {
+      "key": "api_key",
+      "value": "TEST_API_KEY",
+      "type": "default"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/health",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "health"]
+        }
+      }
+    },
+    {
+      "name": "Valid Message - Low Score",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{api_key}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"agent\": \"endpoint-checker\",\n  \"payload\": \"Hello, can you help me with my account?\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/message",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "message"]
+        }
+      }
+    },
+    {
+      "name": "High Scam Score - Multiple Indicators",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{api_key}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"agent\": \"endpoint-checker\",\n  \"payload\": \"URGENT! Your bank account has been compromised. Please verify your identity immediately by providing your OTP. Click here: http://fakebank.com to confirm your transaction.\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/message",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "message"]
+        }
+      }
+    },
+    {
+      "name": "OTP Request Detection",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{api_key}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"agent\": \"endpoint-checker\",\n  \"payload\": \"Your OTP is 4592 verify now\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/message",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "message"]
+        }
+      }
+    },
+    {
+      "name": "Financial Keywords Detection",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{api_key}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"agent\": \"endpoint-checker\",\n  \"payload\": \"Please provide your credit card and debit card information for the transaction\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/message",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "message"]
+        }
+      }
+    },
+    {
+      "name": "Urgency Keywords Detection",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{api_key}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"agent\": \"endpoint-checker\",\n  \"payload\": \"This offer expires limited time only. Act now immediately or your account will be suspended.\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/message",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "message"]
+        }
+      }
+    },
+    {
+      "name": "Missing Auth Header",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"agent\": \"endpoint-checker\",\n  \"payload\": \"test\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/message",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "message"]
+        }
+      }
+    },
+    {
+      "name": "Invalid API Key",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer WRONG_KEY"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"agent\": \"endpoint-checker\",\n  \"payload\": \"test\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/message",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "message"]
+        }
+      }
+    },
+    {
+      "name": "Missing Payload Field",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{api_key}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"agent\": \"endpoint-checker\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/message",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "message"]
+        }
+      }
+    },
+    {
+      "name": "Invalid JSON Format",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{api_key}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{invalid json}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/message",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "message"]
+        }
+      }
+    },
+    {
+      "name": "Get All Logs",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{api_key}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/logs",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "logs"]
+        }
+      }
+    },
+    {
+      "name": "Filter Logs by IP",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{api_key}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/logs?ip=127.0.0.1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "logs"],
+          "query": [
+            {
+              "key": "ip",
+              "value": "127.0.0.1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Unknown Endpoint",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{api_key}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/honeypot/unknown",
+          "host": ["{{base_url}}"],
+          "path": ["api", "honeypot", "unknown"]
+        }
+      }
+    }
+  ]
+}

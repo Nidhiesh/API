@@ -1,0 +1,55 @@
+{
+  "passed": 0,
+  "failed": 8,
+  "total": 8,
+  "details": [
+    {
+      "test": "Health check",
+      "passed": false,
+      "details": "HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/honeypot/health (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=5000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "timestamp": "2026-02-05T06:52:13.138192"
+    },
+    {
+      "test": "Legitimate message test",
+      "passed": false,
+      "details": "HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/honeypot/message (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=5000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "timestamp": "2026-02-05T06:52:17.200685"
+    },
+    {
+      "test": "High scam score test",
+      "passed": false,
+      "details": "HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/honeypot/message (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=5000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "timestamp": "2026-02-05T06:52:21.289330"
+    },
+    {
+      "test": "Missing auth header test",
+      "passed": false,
+      "details": "HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/honeypot/message (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=5000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "timestamp": "2026-02-05T06:52:25.389822"
+    },
+    {
+      "test": "Invalid API key test",
+      "passed": false,
+      "details": "HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/honeypot/message (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=5000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "timestamp": "2026-02-05T06:52:29.492042"
+    },
+    {
+      "test": "Missing payload test",
+      "passed": false,
+      "details": "HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/honeypot/message (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=5000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "timestamp": "2026-02-05T06:52:33.595242"
+    },
+    {
+      "test": "Get logs test",
+      "passed": false,
+      "details": "HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/honeypot/logs (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=5000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "timestamp": "2026-02-05T06:52:37.687040"
+    },
+    {
+      "test": "Unknown endpoint test",
+      "passed": false,
+      "details": "HTTPConnectionPool(host='localhost', port=5000): Max retries exceeded with url: /api/honeypot/unknown (Caused by NewConnectionError(\"HTTPConnection(host='localhost', port=5000): Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it\"))",
+      "timestamp": "2026-02-05T06:52:41.805315"
+    }
+  ]
+}
